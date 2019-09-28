@@ -31,6 +31,7 @@ public class SimonSays extends KeyAdapter {
 	// Complete steps 1 - 7 before you test
 	// 1. Declare a JFrame variable
 	JFrame frame;
+	
 	public void run() {
 		// 2. Add the four images that match keyboard keys like this:
 		// images.put(new Integer(KeyEvent.VK_UP), "up.jpg");
@@ -48,9 +49,21 @@ public class SimonSays extends KeyAdapter {
 
 	public void keyPressed(KeyEvent e) {
 		// 15. Make a points variable to track the score.
-		int points = 0;
+		int score = 0;
 		// 16. If the keyCode matches the imageIndex and "Simon says"
-		
+		if (e.getKeyCode() == imageIndex && simonSays) {
+			score = score + 1;
+			speak("Correct");
+		}else if (e.getKeyCode() != imageIndex && simonSays == false) {
+			score = score + 1;
+			speak("Correct");
+		}else {
+			tries = tries + 1;
+		}
+		if (tries == 3) {
+			JOptionPane.showMessageDialog(null, "Your score is " + score + ".");
+			speak("You failed. Just like always.");
+		}
 		// 17. Increase the value of score
 
 		// 18. Use the speak method to tell the user they were correct
@@ -98,28 +111,28 @@ public class SimonSays extends KeyAdapter {
 		// "Simon says press this key" or "Press this key"
 		int key = randy.nextInt(7);
 		if (key == 0) {
-			speak("Press the up key.");
+			speak("Press this key");
 			simonSays = false;
 		}else if (key == 1) {
-			speak("Simon says press the up key.");
+			speak("Simon says press this key");
 			simonSays = true;
 		}else if (key == 2) {
-			speak("Press the down key.");
+			speak("Press this key");
 			simonSays = false;
 		}else if (key == 3) {
-			speak("Simon says press the down key.");
+			speak("Simon says press this key");
 			simonSays = true;
 		}else if (key == 4) {
-			speak("Press the left key.");
+			speak("Press this key");
 			simonSays = false;
 		}else if (key == 5) {
-			speak("Simon says press the left key.");
+			speak("Simon says press this key");
 			simonSays = true;
 		}else if (key == 6) {
-			speak("Press the right key.");
+			speak("Press this key");
 			simonSays = false;
 		}else if (key == 7) {
-			speak("Simon says press the right key.");
+			speak("Simon says press this key");
 			simonSays = true;
 		}
 		// 14. Above, set the value of simonSays to true/false appropriately
