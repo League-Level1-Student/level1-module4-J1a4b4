@@ -20,6 +20,8 @@ public class BookOfIllusions extends MouseAdapter {
 
 	// 1. Make a JFrame variable and initialize it using "new JFrame()"
 	JFrame frame = new JFrame();
+	JLabel label;
+	String imageII = "illusionII.jpg";
 	public void run() {
 		// 2. make the frame visible
 		// 3. set the size of the frame
@@ -32,7 +34,12 @@ public class BookOfIllusions extends MouseAdapter {
 		// 10. add a mouse listener to your frame (hint: use *this*)
 		frame.setVisible(true);
 		frame.setSize(500, 500);
-		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		String imageI = "illusionI.jpg";
+		label = loadImageFromComputer(imageI);
+		frame.add(label);
+		frame.pack();
+		frame.addMouseListener(this);
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -40,6 +47,10 @@ public class BookOfIllusions extends MouseAdapter {
 		// 12. remove everything from the frame that was added earlier
 		// 13. load a new image like before (this is more than one line of code)
 		// 14. pack the frame
+		frame.remove(label);
+		label = loadImageFromComputer(imageII);
+		frame.add(label);
+		frame.pack();
 	}
 
 	// [OPTIONAL] 15. goad your users with some annoying or witty pop-ups
