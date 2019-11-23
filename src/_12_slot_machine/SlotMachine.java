@@ -1,6 +1,5 @@
 package _12_slot_machine;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
@@ -24,17 +23,22 @@ public class SlotMachine implements ActionListener {
 	JLabel reelTwo;
 	JLabel reelThree;
 	JLabel money;
+	JButton exitB;
 	int winnings = 100;
+	int wins = 0;
 
 	public void run() {
 		frame = new JFrame();
 		panel = new JPanel();
 		button = new JButton();
+		exitB = new JButton();
 		money = new JLabel();
 		frame.add(panel);
 		button.setText("Spin to Win!");
+		exitB.setText("Quit");
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		exitB.addActionListener(this);
 		button.addActionListener(this);
 		try {
 			reelOne = createLabelImage("cherries.png");
@@ -51,13 +55,13 @@ public class SlotMachine implements ActionListener {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
+		panel.add(button);
+		panel.add(money);
+		panel.add(exitB);
 		panel.add(reelOne);
 		panel.add(reelTwo);
 		panel.add(reelThree);
-		panel.add(button);
-		panel.add(money);
 		money.setText("$" + winnings);
-		frame.setPreferredSize(new Dimension(1000, 1500));
 		frame.pack();
 	}
 	
@@ -74,90 +78,137 @@ public class SlotMachine implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		winnings = winnings - 10;
+		if (e.getSource().equals(exitB)) {
+			frame.remove(panel);
+			panel.remove(reelOne);
+			panel.remove(reelTwo);
+			panel.remove(reelThree);
+			panel.remove(button);
+			panel.remove(money);
+			panel.remove(exitB);
+			if (winnings - 100 > 0) {
+				int extra = winnings - 100;
+				money.setText("Congratulations!  You walked away with $" + winnings + ", $" + extra + " more than you started with!");
+			}else {
+				money.setText("Congratulations!  You walked away with $" + winnings + "!");
+			}
+			panel.add(money);
+			frame.add(panel);
+			frame.pack();
+		}else if (e.getSource().equals(button)) {
+			winnings = winnings - 10;
 		Random random = new Random();
-		
 		frame.remove(panel);
 		panel.remove(reelOne);
 		panel.remove(reelTwo);
 		panel.remove(reelThree);
 		panel.remove(button);
 		panel.remove(money);
-		JPanel panelI = new JPanel();
-		JLabel reelOneX = new JLabel();
-		JLabel reelTwoX = new JLabel();
-		JLabel reelThreeX = new JLabel();
-		JButton buttonX = new JButton();
-		buttonX.setText("Spin to Win!");
-		buttonX.addActionListener(this);
+		panel.remove(exitB);
+		reelOne = new JLabel();
+		reelTwo = new JLabel();
+		reelThree = new JLabel();
 		int reelI = random.nextInt(3);
 		int reelII = random.nextInt(3);
 		int reelIII = random.nextInt(3);
 		if (reelI == 0) {
 			try {
-				reelOneX = createLabelImage("cherries.png");
+				reelOne = createLabelImage("cherries.png");
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
 		}else if (reelI == 1) {
 			try {
-				reelOneX = createLabelImage("bar.png");
+				reelOne = createLabelImage("bar.png");
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
 		}else if (reelI == 2) {
 			try {
-				reelOneX = createLabelImage("sevens.png");
+				reelOne = createLabelImage("sevens.png");
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
 		}
 		if (reelII == 0) {
 			try {
-				reelTwoX = createLabelImage("cherries.png");
+				reelTwo = createLabelImage("cherries.png");
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
-		}else if (reelI == 1) {
+		}else if (reelII == 1) {
 			try {
-				reelTwoX = createLabelImage("bar.png");
+				reelTwo = createLabelImage("bar.png");
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
-		}else if (reelI == 2) {
+		}else if (reelII == 2) {
 			try {
-				reelTwoX = createLabelImage("sevens.png");
+				reelTwo = createLabelImage("sevens.png");
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
 		}
 		if (reelIII == 0) {
 			try {
-				reelThreeX = createLabelImage("cherries.png");
+				reelThree = createLabelImage("cherries.png");
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
-		}else if (reelI == 1) {
+		}else if (reelIII == 1) {
 			try {
-				reelThreeX = createLabelImage("bar.png");
+				reelThree = createLabelImage("bar.png");
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
-		}else if (reelI == 2) {
+		}else if (reelIII == 2) {
 			try {
-				reelThreeX = createLabelImage("sevens.png");
+				reelThree = createLabelImage("sevens.png");
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 			}
 		}
-		panelI.add(reelOneX);
-		panelI.add(reelTwoX);
-		panelI.add(reelThreeX);
-		panelI.add(buttonX);
+		panel.add(button);
 		money.setText("$" + winnings);
-		panelI.add(money);
-		frame.add(panelI);
+		panel.add(money);
+		panel.add(exitB);
+		panel.add(reelOne);
+		panel.add(reelTwo);
+		panel.add(reelThree);
+		frame.add(panel);
 		frame.pack();
-		
+		if (reelI == 0 && reelII == 0 && reelIII == 0) {
+			winnings = winnings + 30;
+			JOptionPane.showMessageDialog(null, "Congratulations!  You won $30!");
+			wins = wins + 1;
+		}else if (reelI == 1 && reelII == 1 && reelIII == 1) {
+			winnings = winnings + 100;
+			JOptionPane.showMessageDialog(null, "Congratulations!  You won $100!");
+			wins = wins + 1;
+		}else if (reelI == 2 && reelII == 2 && reelIII == 2) {
+			winnings = winnings + 70;
+			JOptionPane.showMessageDialog(null, "Congratulations!  You won $70!");
+			wins = wins + 1;
+		}else {
+			wins = 0;
+		}
+		if (wins == 2) {
+			winnings = winnings + 100;
+			JOptionPane.showMessageDialog(null, "Two wins in a row!  You win an extra $100!");
+		}else if (wins == 3) {
+			winnings = winnings + 1000;
+			JOptionPane.showMessageDialog(null, "Three wins in a row!  You win an extra $1000!");
+		}else if (wins == 4) {
+			winnings = winnings + 10000;
+			JOptionPane.showMessageDialog(null, "Four wins in a row!  You win an extra $10000!");
+		}else if (wins == 5) {
+			winnings = winnings + 100000;
+			JOptionPane.showMessageDialog(null, "Five wins in a row!  You win an extra $100000!");
+		}else if (wins == 6) {
+			winnings = winnings + 1000000;
+			JOptionPane.showMessageDialog(null, "Six wins in a row!  You win an extra $1000000!");
+		}
+		frame.pack();
+		}
 	}
 }
